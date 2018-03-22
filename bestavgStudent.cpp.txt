@@ -1,0 +1,49 @@
+#include <iostream>
+#include <map>
+#include <vector>
+using namespace std;
+
+int bestAverageGrade(vector<vector<string>> scores)
+{
+  // TODO: implement this function
+  std::multimap<string,string> student_record;
+    
+  for (auto it= scores.begin(); it != scores.end();it++)
+  {
+    vector<string> student;
+    student = *it;
+    cout<<"student:"<<student[0]<<endl;
+    cout<<"marks:"<<student[1]<<endl;
+    student_record.insert(std::pair<string,string>(student[0],student[1]));
+    
+  }
+  vector<int> averageMarks;
+  int max=0;
+  for (auto it= scores.begin(); it != scores.end();it++)
+  {
+     vector<string> student;
+     student = *it;
+     auto same_student = student_record.equal_range(student[0]);
+     int sum=0;
+     for(auto ret = same_student.first; ret != same_student.second; ++ret)
+     {
+        sum = sum + stoi(ret->second);
+       
+     }
+     if(max < sum)
+       max = sum;
+     cout<<"student:"<<it[0][0]<<"sum:"<<sum<<endl;
+  }
+    
+  return max;
+}
+
+// To execute C++, please define "int main()"
+int main() {
+  vector<vector<string>> student = {{"subash", "89"}, {"rams","100"}, {"rams", "33"}, {"subash", "100"} };
+  int a = bestAverageGrade(student);
+  cout<<"best average:"<<a<<endl;
+  
+  
+  return 0;
+}
