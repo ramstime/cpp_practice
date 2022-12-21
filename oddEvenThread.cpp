@@ -3,8 +3,8 @@
 #include <mutex>
 #include <condition_variable>
 using namespace std;
-
-//c++17 write multithread program, one thread prints odd and other prints even, But it should be in sequence order
+//compiled in c++/c++14/c++17/c++20
+// write multithread program, one thread prints odd and other prints even, But it should be in sequence order
 /*
 odd - 1
 even - 2
