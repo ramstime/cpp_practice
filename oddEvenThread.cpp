@@ -14,7 +14,7 @@ even - 4
 .
 */
 int count = 1;
-int MAX = 10;
+int MAX = 20;
 mutex m;
 condition_variable cond;
 bool even = false;
@@ -26,14 +26,18 @@ printEven ()
   while (count < MAX)
     {
       unique_lock < mutex > mlock (m);
+      //wait for odd thread to signal
       cond.wait (mlock,[]
 		 {
-		 return even;}
+		 return even;
+		 }
       );
+      //flip values
       odd = true;
       even = false;
-      cout << "Even Print" << count << endl;
+      cout << "Even - " << count << endl;
       count++;
+      //signal the odd thread
       cond.notify_all ();
     }
 }
@@ -44,14 +48,18 @@ printOdd ()
   while (count < MAX)
     {
       unique_lock < mutex > mlock (m);
+      //wait for event thread to signal
       cond.wait (mlock,[]
 		 {
-		 return odd;}
+		 return odd;
+		 }
       );
+      //flip values
       odd = false;
       even = true;
-      cout << "Odd Print" << count << endl;
+      cout << "Odd  - " << count << endl;
       count++;
+      //signal the even thread
       cond.notify_all ();
     }
 }
